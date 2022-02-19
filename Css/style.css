@@ -9,6 +9,7 @@
   padding: 0 5%;
   background-color: var(--primary-color);
   color: var(--light-color);
+  z-index: 1;
 }
 
 .menu-bar {
@@ -110,14 +111,17 @@
   height: var(--max-size);
   background-color: rgba(0, 0, 0, 0.4);
   position: absolute;
-  display: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.9s ease-in-out;
+  z-index: 1;
 }
 
 .modal-wrapper {
   position: absolute;
-  top: 15%;
+  top: 0;
   right: 50%;
-  transform: translate(50%, -50%);
+  transform: translate(50%, -100%);
   background-color: #f5f6fa;
   width: 400px;
   height: 225px;
@@ -126,6 +130,13 @@
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
+  transition: all 0.9s ease-in-out;
+}
+
+.modalMotion {
+  top: 15%;
+  transform: translate(50%, -50%);
+  transition: all 0.9s ease-in-out;
 }
 
 .modal-header {
@@ -396,9 +407,9 @@
   .modal-wrapper {
     width: 320px;
     height: 250px;
-    top: 5%;
+    top: 0;
     right: 50%;
-    transform: translate(50%, -50%);
+    transform: translate(50%, -100%);
   }
 
   .footer p {
@@ -408,6 +419,12 @@
 
   .activeMenu {
     right: -39px;
+  }
+
+  .showModal {
+    top: 5%;
+    transform: translate(50%, -50%);
+    transition: all 0.9s ease-in-out;
   }
 }
 @media screen and (min-width: 481px) and (max-width: 768px) {
@@ -474,8 +491,11 @@
   transform: rotate(-45deg);
 }
 
+/** modal fade-in fad-out */
 .showModal {
-  display: block;
+  opacity: 1;
+  visibility: visible;
+  transition: all 0.9s ease-in-out;
 }
 
 :root {
@@ -533,6 +553,7 @@ body {
   padding: 0 5%;
   background-color: var(--primary-color);
   color: var(--light-color);
+  z-index: 1;
 }
 
 .menu-bar {
@@ -634,14 +655,17 @@ body {
   height: var(--max-size);
   background-color: rgba(0, 0, 0, 0.4);
   position: absolute;
-  display: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.9s ease-in-out;
+  z-index: 1;
 }
 
 .modal-wrapper {
   position: absolute;
-  top: 15%;
+  top: 0;
   right: 50%;
-  transform: translate(50%, -50%);
+  transform: translate(50%, -100%);
   background-color: #f5f6fa;
   width: 400px;
   height: 225px;
@@ -650,6 +674,13 @@ body {
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
+  transition: all 0.9s ease-in-out;
+}
+
+.modalMotion {
+  top: 15%;
+  transform: translate(50%, -50%);
+  transition: all 0.9s ease-in-out;
 }
 
 .modal-header {
@@ -920,9 +951,9 @@ body {
   .modal-wrapper {
     width: 320px;
     height: 250px;
-    top: 5%;
+    top: 0;
     right: 50%;
-    transform: translate(50%, -50%);
+    transform: translate(50%, -100%);
   }
 
   .footer p {
@@ -932,6 +963,12 @@ body {
 
   .activeMenu {
     right: -39px;
+  }
+
+  .showModal {
+    top: 5%;
+    transform: translate(50%, -50%);
+    transition: all 0.9s ease-in-out;
   }
 }
 @media screen and (min-width: 481px) and (max-width: 768px) {
@@ -998,6 +1035,9 @@ body {
   transform: rotate(-45deg);
 }
 
+/** modal fade-in fad-out */
 .showModal {
-  display: block;
+  opacity: 1;
+  visibility: visible;
+  transition: all 0.9s ease-in-out;
 }/*# sourceMappingURL=style.css.map */
