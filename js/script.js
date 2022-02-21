@@ -134,7 +134,7 @@ class ViewProduct {
                                  <p>${cartItem.quantity}</p>
                                  <i class="fa-solid fa-minus"data-id=${cartItem.id}></i>
                              </div>
-                             <button class="remove-items" data-id=${cartItem.id}><i class="fa-solid fa-trash"></i></button>
+                             <i class="fa-solid fa-trash remove-items" data-id=${cartItem.id}></i>
                          </div>`;
             modalContent.innerHTML += result;
 
@@ -150,6 +150,34 @@ class ViewProduct {
     logicOpCart() {
         claerModal.addEventListener('click', () => {
             this.clearCart();
+        });
+        modalContent.addEventListener('click', (e) => {
+            const target = e.target;
+            const id = e.target.dataset.id;
+            const className = [...e.target.classList][1];
+            const matchCart = cart.find((item) => item.id === parseInt(id));
+            switch (className) {
+                case 'fa-trash':
+                    this.removeCartItem(matchCart.id);
+                    this.setCartValue(cart);
+                    Storage.saveToLocal(cart);
+                    target.parentElement.remove();
+                    break;
+                case 'fa-plus':
+                    matchCart.quantity++;
+                    this.setCartValue(cart);
+                    Storage.saveToLocal(cart);
+                    target.nextElementSibling.textContent = matchCart.quantity;
+                    break;
+                case 'fa-minus':
+                    if (matchCart.quantity > 1) {
+                        matchCart.quantity--;
+                        this.setCartValue(cart);
+                        Storage.saveToLocal(cart);
+                        target.previousElementSibling.textContent = matchCart.quantity;
+                    }
+                    break;
+            }
         });
     }
     clearCart() {
