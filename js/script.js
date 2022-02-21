@@ -3,13 +3,15 @@ import {
 } from "./Product.js";
 const toggle = document.querySelector('[data-toggle]');
 const sidebar = document.querySelector('[data-menu]');
-const cart = document.querySelector('.fa-cart-shopping');
+const cartBtn = document.querySelector('.fa-cart-shopping');
 const closeModal = document.querySelector('[data-closemodal]');
 const modalWrapper = document.querySelector('.modal-wrapper');
 const container = document.querySelector('.container');
 const cartBadge = document.querySelector('.badge');
 const modalContent = document.querySelector('.modal-content');
-const totalPrice = document.querySelector('.total-price');
+const totalPrice = document.querySelectorAll('.total-price p')[1];
+const claerModal = document.querySelector('[data-clear]');
+let buttonsDom = [];
 //toggle menu function
 function toggler() {
     toggle.classList.toggle('activeToggle');
@@ -22,11 +24,9 @@ function fadeIn() {
 
 }
 //fade-out Modal
-function fadeOut(e) {
-    if (e.target.matches('.modal-cart')) {
-        modalWrapper.classList.remove('modalMotion');
-        closeModal.classList.remove('showModal');
-    }
+function fadeOut() {
+    modalWrapper.classList.remove('modalMotion');
+    closeModal.classList.remove('showModal');
 }
 
 class Product {
@@ -35,7 +35,7 @@ class Product {
         return productsData;
     }
 }
-let card = [];
+let cart = [];
 class ViewProduct {
     view(product) {
             let result = '';
@@ -57,68 +57,121 @@ class ViewProduct {
                 container.innerHTML = result;
             });
         }
-        /*  viewOnCart(product, id) {
-             let result;
-             product.forEach(item => {
-                 if (item.id == id) {
-                     saveToLoacal(item);
-                     result = ` <div class="modal-items">
-                             <div class="image-items">
-                                 <img src=${item.url} alt="ia">
-                             </div>
-                             <div class="info-items">
-                                 <p>${item.title}</p>
-                                 <p>${item.price} هزارتومان</p>
-                             </div>
-                             <div class="counter-items">
-                                 <i class="fa-solid fa-plus"></i>
-                                 <p>1</p>
-                                 <i class="fa-solid fa-minus"></i>
-                             </div>
-                             <button class="remove-items"><i class="fa-solid fa-trash"></i></button>
-                         </div>`;
-                     modalContent.innerHTML += result;
-                 }
-             });
-         } */
-    viewAddToCart() {
-        const buttons = document.querySelectorAll('.buy-btn');
-        const addToCartBtns = [...buttons];
-        addToCartBtns.forEach(btn => {
+        /*  viewCartItems(product, id) {
+                 let result;
+                 product.forEach(item => {
+                     if (item.id == id) {
+                         saveToLoacal(item);
+                         result = ` <div class="modal-items">
+                                 <div class="image-items">
+                                     <img src=${item.url} alt="ia">
+                                 </div>
+                                 <div class="info-items">
+                                     <p>${item.title}</p>
+                                     <p>${item.price} هزارتومان</p>
+                                 </div>
+                                 <div class="counter-items">
+                                     <i class="fa-solid fa-plus"></i>
+                                     <p>1</p>
+                                     <i class="fa-solid fa-minus"></i>
+                                 </div>
+                                 <button class="remove-items"><i class="fa-solid fa-trash"></i></button>
+                             </div>`;
+                         modalContent.innerHTML += result;
+                     }
+                 });
+             } */
+    BtnAddToCart() {
+        const buttons = [...document.querySelectorAll('.buy-btn')];
+        buttonsDom = buttons;
+        buttons.forEach(btn => {
             const id = btn.dataset.id;
             // check id exist in cart or no?
-            const isInCard = card.find((item) => item.id == id);
-            if (isInCard) {
+            const isIncart = cart.find((item) => item.id == id);
+            if (isIncart) {
                 btn.textContent = 'موجود در سبد';
                 btn.disabled = true;
             }
             btn.addEventListener('click', (e) => {
                 e.target.textContent = 'موجود در سبد';
                 e.target.disabled = true;
-                const addToLocal = Storage.getOfLocals(id);
-                // console.log(addToLocal);
-                card = [...card, {
-                    ...addToLocal,
+                const addToLocal = {
+                    ...Storage.getProduct(id),
                     quantity: 1
-                }];
-                this.setCartValue(card);
-                Storage.saveToLocal(card);
+                };
+                // console.log(addToLocal);
+                cart = [...cart, addToLocal];
+                this.setCartValue(cart);
+                Storage.saveToLocal(cart);
+                this.viewCartItems(addToLocal);
+
             });
         });
     }
-    setCartValue(card) {
+    setCartValue(cart) {
         //1 counter cart
         //2 get total of product in cart
         let cartCounter = 0;
-        const cartTotal = card.reduce((acc, curr) => {
+        const cartTotal = cart.reduce((acc, curr) => {
             cartCounter += curr.quantity;
             return acc + curr.quantity * curr.price;
         }, 0);
         cartBadge.textContent = cartCounter;
         totalPrice.textContent = `${cartTotal}000 هزارتومان`;
     }
-    viewOnCard() {
+    viewCartItems(cartItem) {
+            let result;
+            result = ` <div class="modal-items">
+                             <div class="image-items">
+                                 <img src=${cartItem.url} alt="ia">
+                             </div>
+                             <div class="info-items">
+                                 <p>${cartItem.title}</p>
+                                 <p>${cartItem.price} هزارتومان</p>
+                             </div>
+                             <div class="counter-items">
+                                 <i class="fa-solid fa-plus"data-id=${cartItem.id}></i>
+                                 <p>${cartItem.quantity}</p>
+                                 <i class="fa-solid fa-minus"data-id=${cartItem.id}></i>
+                             </div>
+                             <button class="remove-items" data-id=${cartItem.id}><i class="fa-solid fa-trash"></i></button>
+                         </div>`;
+            modalContent.innerHTML += result;
 
+        }
+        //load items in cart on local storag
+    loadOfLocal() {
+        cart = Storage.getOfLocal() || [];
+        cart.forEach((cartItem) => {
+            this.viewCartItems(cartItem);
+        });
+        this.setCartValue(cart);
+    }
+    logicOpCart() {
+        claerModal.addEventListener('click', () => {
+            this.clearCart();
+        });
+    }
+    clearCart() {
+        cart.forEach(item => this.removeCartItem(item.id));
+        while (modalContent.children.length) {
+            modalContent.removeChild(modalContent.children[0]);
+        }
+        fadeOut();
+    }
+    removeCartItem(id) {
+        //filter items id is not equal id fo delet
+        cart = cart.filter((item) => item.id !== parseInt(id));
+        //1-update total Price
+        this.setCartValue(cart);
+        //2-save new carts to local
+        Storage.saveToLocal(cart);
+        const button = this.changeBtnValue(id);
+        button.textContent = 'افزودن به سبد';
+        button.disabled = false;
+    }
+    changeBtnValue(id) {
+        return buttonsDom.find((btn) => parseInt(btn.dataset.id) === parseInt(id));
     }
 }
 class Storage {
@@ -126,24 +179,36 @@ class Storage {
             localStorage.setItem('products', JSON.stringify(product));
         }
         // get object of data data-id ==id
-    static getOfLocals(id) {
+    static getProduct(id) {
         const _Product = JSON.parse(localStorage.getItem('products'));
         return _Product.find(item => item.id == parseInt(id));
     }
-    static saveToLocal(card) {
-        localStorage.setItem('card', JSON.stringify(card));
-
+    static saveToLocal(cart) {
+        localStorage.setItem('cart', JSON.stringify(cart));
     }
-
+    static getOfLocal() {
+        return JSON.parse(localStorage.getItem('cart'));
+    }
 }
 toggle.addEventListener('click', toggler);
-cart.addEventListener('click', fadeIn);
-closeModal.addEventListener('click', fadeOut);
+cartBtn.addEventListener('click', fadeIn);
+closeModal.addEventListener('click', (e) => {
+    if (e.target.matches('.modal-cart')) {
+        fadeOut();
+    }
+});
+
 document.addEventListener('DOMContentLoaded', () => {
+    //1.save product on localStorage when load doc
     const product = new Product();
-    const getProduct = product.getProducts();
+    const getProduct = product.getProducts(); // add productdata to 
+    // 2.show produc
     const ViewProducts = new ViewProduct();
     ViewProducts.view(getProduct);
-    ViewProducts.viewAddToCart(getProduct);
+    ViewProducts.BtnAddToCart(getProduct);
+    ViewProducts.loadOfLocal();
+    ViewProducts.logicOpCart();
+    // ViewProducts.removeCartItem();
+    //3.
     Storage.saveProduct(getProduct);
 });
