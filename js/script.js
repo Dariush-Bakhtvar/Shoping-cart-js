@@ -38,9 +38,9 @@ class Product {
 let cart = [];
 class ViewProduct {
     view(product) {
-            let result = '';
-            product.forEach(item => {
-                result += `<div class="card">
+        let result = '';
+        product.forEach(item => {
+            result += `<div class="card">
                 <header class="card__title">
                     <p>${item.title}</p>
                 </header>
@@ -54,33 +54,9 @@ class ViewProduct {
                     <button class="buy-btn" data-id=${item.id}>افزودن به سبد</button>
                 </div>
             </div>`;
-                container.innerHTML = result;
-            });
-        }
-        /*  viewCartItems(product, id) {
-                 let result;
-                 product.forEach(item => {
-                     if (item.id == id) {
-                         saveToLoacal(item);
-                         result = ` <div class="modal-items">
-                                 <div class="image-items">
-                                     <img src=${item.url} alt="ia">
-                                 </div>
-                                 <div class="info-items">
-                                     <p>${item.title}</p>
-                                     <p>${item.price} هزارتومان</p>
-                                 </div>
-                                 <div class="counter-items">
-                                     <i class="fa-solid fa-plus"></i>
-                                     <p>1</p>
-                                     <i class="fa-solid fa-minus"></i>
-                                 </div>
-                                 <button class="remove-items"><i class="fa-solid fa-trash"></i></button>
-                             </div>`;
-                         modalContent.innerHTML += result;
-                     }
-                 });
-             } */
+            container.innerHTML = result;
+        });
+    }
     BtnAddToCart() {
         const buttons = [...document.querySelectorAll('.buy-btn')];
         buttonsDom = buttons;
@@ -102,14 +78,14 @@ class ViewProduct {
                 };
                 //update cart 
                 cart = [...cart, addToLocal];
-                this.setCartValue(cart);
+                this.upDate_Bage_Totals(cart);
                 Storage.saveToLocal(cart);
-                this.viewCartItems(addToLocal);
+                this.showCartItems(addToLocal);
 
             });
         });
     }
-    setCartValue(cart) {
+    upDate_Bage_Totals(cart) {
         //1 counter cart
         //2 get total of product in cart
         let cartCounter = 0;
@@ -120,7 +96,7 @@ class ViewProduct {
         cartBadge.textContent = cartCounter;
         totalPrice.textContent = `${cartTotal}000 هزارتومان`;
     }
-    viewCartItems(cartItem) {
+    showCartItems(cartItem) {
             let result;
             result = ` <div class="modal-items">
                              <div class="image-items">
@@ -140,14 +116,28 @@ class ViewProduct {
             modalContent.innerHTML += result;
 
         }
+        //check btn is in cart after load? yes==disable card
+    checkBtn() {
+            buttonsDom.forEach(btn => {
+                const id = btn.dataset.id;
+                // check id exist in cart or no?
+                const isIncart = cart.find((item) => item.id == id);
+                if (isIncart) {
+                    btn.textContent = 'موجود در سبد';
+                    btn.disabled = true;
+                }
+            });
+        }
         //load items in cart on local storag
     loadOfLocal() {
-        cart = Storage.getOfLocal() || [];
-        cart.forEach((cartItem) => {
-            this.viewCartItems(cartItem);
-        });
-        this.setCartValue(cart);
-    }
+            cart = Storage.getOfLocal() || [];
+            cart.forEach((cartItem) => {
+                this.showCartItems(cartItem);
+            });
+            this.upDate_Bage_Totals(cart);
+            this.checkBtn();
+        }
+        // logic cart operation section
     logicOpCart() {
         claerModal.addEventListener('click', () => {
             this.clearCart();
@@ -160,13 +150,13 @@ class ViewProduct {
             switch (className) {
                 case 'fa-trash':
                     this.removeCartItem(matchCart.id);
-                    this.setCartValue(cart);
+                    this.upDate_Bage_Totals(cart);
                     Storage.saveToLocal(cart);
                     target.parentElement.remove();
                     break;
                 case 'fa-plus':
                     matchCart.quantity++;
-                    this.setCartValue(cart);
+                    this.upDate_Bage_Totals(cart);
                     Storage.saveToLocal(cart);
                     target.nextElementSibling.textContent = matchCart.quantity;
                     break;
@@ -179,13 +169,14 @@ class ViewProduct {
                         this.removeCartItem(matchCart.id);
                         target.parentElement.parentElement.remove();
                     }
-                    this.setCartValue(cart);
+                    this.upDate_Bage_Totals(cart);
                     Storage.saveToLocal(cart);
                     break;
             }
         });
     }
     clearCart() {
+        // remove one by one shopping cart
         cart.forEach(item => this.removeCartItem(item.id));
         while (modalContent.children.length) {
             modalContent.removeChild(modalContent.children[0]);
@@ -196,7 +187,7 @@ class ViewProduct {
         //filter items id is not equal id fo delet
         cart = cart.filter((item) => item.id !== parseInt(id));
         //1-update total Price
-        this.setCartValue(cart);
+        this.upDate_Bage_Totals(cart);
         //2-save new carts to local
         Storage.saveToLocal(cart);
         const button = this.changeBtnValue(id);
