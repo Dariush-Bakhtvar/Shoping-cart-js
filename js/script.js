@@ -95,11 +95,12 @@ class ViewProduct {
             btn.addEventListener('click', (e) => {
                 e.target.textContent = 'موجود در سبد';
                 e.target.disabled = true;
+                // create new object width add quntity
                 const addToLocal = {
                     ...Storage.getProduct(id),
                     quantity: 1
                 };
-                // console.log(addToLocal);
+                //update cart 
                 cart = [...cart, addToLocal];
                 this.setCartValue(cart);
                 Storage.saveToLocal(cart);
@@ -170,12 +171,16 @@ class ViewProduct {
                     target.nextElementSibling.textContent = matchCart.quantity;
                     break;
                 case 'fa-minus':
-                    if (matchCart.quantity > 1) {
+                    if (matchCart.quantity > 0) {
                         matchCart.quantity--;
-                        this.setCartValue(cart);
-                        Storage.saveToLocal(cart);
                         target.previousElementSibling.textContent = matchCart.quantity;
                     }
+                    if (matchCart.quantity === 0) {
+                        this.removeCartItem(matchCart.id);
+                        target.parentElement.parentElement.remove();
+                    }
+                    this.setCartValue(cart);
+                    Storage.saveToLocal(cart);
                     break;
             }
         });
@@ -236,7 +241,6 @@ document.addEventListener('DOMContentLoaded', () => {
     ViewProducts.BtnAddToCart(getProduct);
     ViewProducts.loadOfLocal();
     ViewProducts.logicOpCart();
-    // ViewProducts.removeCartItem();
     //3.
     Storage.saveProduct(getProduct);
 });
