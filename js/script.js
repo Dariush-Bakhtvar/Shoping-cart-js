@@ -11,7 +11,14 @@ const cartBadge = document.querySelector('.badge');
 const modalContent = document.querySelector('.modal-content');
 const totalPrice = document.querySelectorAll('.total-price p')[1];
 const claerModal = document.querySelector('[data-clear]');
+const searchBox = document.querySelector('[data-search]');
+const filter = document.querySelector('#filter');
 let buttonsDom = [];
+let cart = [];
+const searchItem = {
+    value: ''
+};
+//search variable
 //toggle menu function
 function toggler() {
     toggle.classList.toggle('activeToggle');
@@ -35,11 +42,10 @@ class Product {
         return productsData;
     }
 }
-let cart = [];
 class ViewProduct {
-    view(product) {
+    view(Product) {
         let result = '';
-        product.forEach(item => {
+        Product.forEach(item => {
             result += `<div class="card">
                 <header class="card__title">
                     <p>${item.title}</p>
@@ -213,7 +219,34 @@ class Storage {
     static getOfLocal() {
         return JSON.parse(localStorage.getItem('cart'));
     }
+    static searchOfLocal() {
+        return JSON.parse(localStorage.getItem('products'));
+    }
 }
+class Search extends ViewProduct {
+    view(product) {
+        super.view(product);
+    }
+    searchProduct(searchItem) {
+        const result = Storage.searchOfLocal().filter(item => item.title.includes(searchItem.value));
+        container.innerHTML = "";
+        this.view(result);
+    }
+    filterProduct(filterItem) {
+        let result;
+        if (filterItem == 'فیلتر بر اساس') {
+            result = Storage.searchOfLocal();
+            container.innerHTML = "";
+            this.view(result);
+        } else {
+            result = Storage.searchOfLocal().filter(item => item.title.includes(filterItem));
+            container.innerHTML = "";
+            this.view(result);
+        }
+    }
+
+}
+const search = new Search();
 toggle.addEventListener('click', toggler);
 cartBtn.addEventListener('click', fadeIn);
 closeModal.addEventListener('click', (e) => {
@@ -221,7 +254,16 @@ closeModal.addEventListener('click', (e) => {
         fadeOut();
     }
 });
+searchBox.addEventListener('input', () => {
+    searchItem.value = `${searchBox.value}`;
+    search.searchProduct(searchItem);
+});
 
+filter.addEventListener(`change`, (e) => {
+    const select = e.target;
+    const text = select.selectedOptions[0].text;
+    search.filterProduct(text);
+});
 document.addEventListener('DOMContentLoaded', () => {
     //1.save product on localStorage when load doc
     const product = new Product();

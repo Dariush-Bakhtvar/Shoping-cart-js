@@ -7,6 +7,8 @@
     --primary-color: #60328c;
     --light-color: #fff;
     --body-color: #201f1f;
+    --card-color: #404040;
+    --card-bgColor: #f5f6fa;
 }
 
 html {
@@ -42,5 +44,5 @@ body {
     font-size: 1.6rem;
     font-weight: normal;
     color: var(--body-color);
-    font-family: 'Vazir', sans-serif;
+    font-family: "Vazir", sans-serif;
 }
