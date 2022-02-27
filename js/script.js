@@ -15,27 +15,12 @@ const searchBox = document.querySelector('[data-search]');
 const filter = document.querySelector('#filter');
 let buttonsDom = [];
 let cart = [];
+//search object varible
 const searchItem = {
     value: ''
 };
-//search variable
-//toggle menu function
-function toggler() {
-    toggle.classList.toggle('activeToggle');
-    sidebar.classList.toggle('activeMenu');
-}
-//fade-in modal
-function fadeIn() {
-    closeModal.classList.add('showModal');
-    modalWrapper.classList.add('modalMotion');
-
-}
-//fade-out Modal
-function fadeOut() {
-    modalWrapper.classList.remove('modalMotion');
-    closeModal.classList.remove('showModal');
-}
-
+const url = " http://localhost:3000/items";
+let allProduct = [];
 class Product {
     //1- get product from api or json file
     getProducts() {
@@ -247,6 +232,27 @@ class Search extends ViewProduct {
 
 }
 const search = new Search();
+//toggle menu function
+function toggler() {
+    toggle.classList.toggle('activeToggle');
+    sidebar.classList.toggle('activeMenu');
+}
+//fade-in modal
+function fadeIn() {
+    closeModal.classList.add('showModal');
+    modalWrapper.classList.add('modalMotion');
+
+}
+//fade-out Modal
+function fadeOut() {
+    modalWrapper.classList.remove('modalMotion');
+    closeModal.classList.remove('showModal');
+}
+//get search input value
+function getSearchValue() {
+    searchItem.value = `${searchBox.value}`;
+    search.searchProduct(searchItem);
+}
 toggle.addEventListener('click', toggler);
 cartBtn.addEventListener('click', fadeIn);
 closeModal.addEventListener('click', (e) => {
@@ -254,16 +260,14 @@ closeModal.addEventListener('click', (e) => {
         fadeOut();
     }
 });
-searchBox.addEventListener('input', () => {
-    searchItem.value = `${searchBox.value}`;
-    search.searchProduct(searchItem);
-});
+searchBox.addEventListener('input', getSearchValue);
 
 filter.addEventListener(`change`, (e) => {
     const select = e.target;
     const text = select.selectedOptions[0].text;
     search.filterProduct(text);
 });
+
 document.addEventListener('DOMContentLoaded', () => {
     //1.save product on localStorage when load doc
     const product = new Product();
@@ -276,4 +280,14 @@ document.addEventListener('DOMContentLoaded', () => {
     ViewProducts.logicOpCart();
     //3.
     Storage.saveProduct(getProduct);
+    //4.test: get Porduct data form json-server
+    axios.get(url)
+        .then(response => {
+            // const data = response.data;
+            // data.forEach(item => allProduct.push(item));
+            allProduct = response.data;
+            console.log(allProduct);
+        });
+
 });
+console.log(allProduct);
