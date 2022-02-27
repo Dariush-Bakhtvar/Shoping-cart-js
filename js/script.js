@@ -234,7 +234,7 @@ class Search extends ViewProduct {
     }
     filterProduct(filterItem) {
         let result;
-        if (filterItem == 'فیلتر بر اساس') {
+        if (filterItem == 'همه') {
             result = Storage.searchOfLocal();
             container.innerHTML = "";
             this.view(result);

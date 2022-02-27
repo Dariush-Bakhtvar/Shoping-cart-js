@@ -405,6 +405,9 @@
             }
         }
     }
+    .card {
+        height: 320px;
+    }
     .wrapper-menu {
         position: fixed;
         top: 40px;
@@ -434,6 +437,26 @@
             }
         }
     }
+    .search-box {
+        width: 70%;
+        height: 30px;
+        grid-template-columns: repeat(2, 1fr);
+        P {
+            display: none;
+        }
+    }
+    .search input[type="search"] {
+        width: 130px;
+        padding: 0 2px;
+        font-size: 1.2rem;
+    }
+    #filter {
+        width: 70px;
+        padding: 0;
+        margin-right: 10px;
+        font-size: 1.2rem;
+        justify-self: end;
+    }
     .cart {
         &:first-child {
             font-size: 1.4rem;
@@ -450,12 +473,22 @@
         line-height: 13px;
         font-size: 1rem;
     }
+    .modal-cart {
+        top: 0;
+        transform: translate(0, -2%);
+        transition: all 0.9s ease-in-out;
+    }
     .modal-wrapper {
         width: 320px;
         height: 250px;
         top: 0;
         right: 50%;
         transform: translate(50%, -100%);
+    }
+    .modalMotion {
+        top: 8%;
+        transform: translate(50%, -50%);
+        transition: all 0.9s ease-in-out;
     }
     .footer {
         p {
@@ -465,11 +498,6 @@
     }
     .activeMenu {
         right: -39px;
-    }
-    .showModal {
-        top: 5%;
-        transform: translate(50%, -50%);
-        transition: all 0.9s ease-in-out;
     }
 }
 
@@ -516,6 +544,20 @@
     }
     .activeMenu {
         right: -58px;
+    }
+    .search-box {
+        width: 75%;
+        grid-template-columns: repeat(2, 1fr);
+        p {
+            display: none;
+        }
+    }
+    .search input[type="search"] {
+        width: 200px;
+    }
+    #filter {
+        width: 120px;
+        justify-self: end;
     }
 }
 
