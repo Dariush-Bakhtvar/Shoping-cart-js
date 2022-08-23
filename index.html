@@ -1,77 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>shoping Card</title>
+		<link rel="stylesheet" href="Css/style.css" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+			integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		/>
+	</head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>shoping Card</title>
-    <link rel="stylesheet" href="Css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer"
-    />
-
-</head>
-
-<body>
-    <nav class="sticky-nav">
-        <div class="menu-bar">
-            <div class="btn-toggle" data-toggle>
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <div class="wrapper-menu" data-menu>
-                <ul class="menu">
-                    <li><a href="#">خانه</a>
-                    </li>
-                    <li><a href="#">ده بندی</a></li>
-                    <li><a href="#">درباره ی</a></li>
-                    <li><a href="#">تماس با ما</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="cart">
-            <p>سبد خرید</p>
-            <!-- <i class="fa-regular fa-cart-shopping"></i>
+	<body>
+		<nav class="sticky-nav">
+			<div class="menu-bar">
+				<div class="btn-toggle" data-toggle>
+					<span></span>
+					<span></span>
+					<span></span>
+				</div>
+				<div class="wrapper-menu" data-menu>
+					<ul class="menu">
+						<li><a href="#">خانه</a></li>
+						<li><a href="#">دسته بندی</a></li>
+						<li><a href="#">درباره ی</a></li>
+						<li><a href="#">تماس با ما</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="cart">
+				<p>سبد خرید</p>
+				<!-- <i class="fa-regular fa-cart-shopping"></i>
              -->
-            <i class="fa-solid fa-cart-shopping"></i>
-            <p class="badge">0</p>
-        </div>
-        <!-- <div class="logo"><img src="img/Bein_sport_logo.png" alt="logo"></div> -->
-
-    </nav>
-    <main class="main-content">
-        <div class="modal-cart" data-closemodal>
-            <div class="modal-wrapper">
-                <div class="modal-header">
-                    <p>سبد شما</p>
-                </div>
-                <div class="modal-content">
-                </div>
-                <div class="modal-footer">
-                    <button data-payment>پرداخت </button>
-                    <button data-clear>خالی کردن</button>
-                    <div class="total-price">
-                        <p>قیمت کل:</p>
-                        <p>0</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <section class="search-box">
-            <p>محصولات</p>
-            <form action="#" class="search">
-                <input type="search" placeholder="جستجو" data-search>
-            </form>
-            <select id="filter">
-                <option value="select">همه</option>
-                <option value="ball">توپ</option>
-                <option value="shirt">لباس</option>
-                <option value="shoe">کفش</option>
-            </select>
-        </section>
-        <section class="container">
-            <!-- <div class="card">
+				<i class="fa-solid fa-cart-shopping"></i>
+				<p class="badge">0</p>
+			</div>
+			<!-- <div class="logo"><img src="img/Bein_sport_logo.png" alt="logo"></div> -->
+		</nav>
+		<main class="main-content">
+			<div class="modal-cart" data-closemodal>
+				<div class="modal-wrapper">
+					<div class="modal-header">
+						<p>سبد شما</p>
+					</div>
+					<div class="modal-content"></div>
+					<div class="modal-footer">
+						<button data-payment>پرداخت</button>
+						<button data-clear>خالی کردن</button>
+						<div class="total-price">
+							<p>قیمت کل:</p>
+							<p>0</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<section class="search-box">
+				<p>محصولات</p>
+				<form action="#" class="search">
+					<input type="search" placeholder="جستجو" data-search />
+				</form>
+				<select id="filter">
+					<option value="select">همه</option>
+					<option value="ball">توپ</option>
+					<option value="shirt">لباس</option>
+					<option value="shoe">کفش</option>
+				</select>
+			</section>
+			<section class="container">
+				<!-- <div class="card">
                 <header class="card__title">
                     <p>لباس پرسپولیس</p>
                 </header>
@@ -197,16 +197,12 @@
                     <button class="buy-btn">افزودن به سبد</button>
                 </div>
             </div> -->
-
-        </section>
-    </main>
-    <footer class=" footer ">
-        <p>
-            تمامی حقوق این سایت متعلق به آل اشپورت می باشد
-        </p>
-    </footer>
-    <script src=" js/script.js " type="module"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-</body>
-
+			</section>
+		</main>
+		<footer class="footer">
+			<p>تمامی حقوق این سایت متعلق به آل اشپورت می باشد</p>
+		</footer>
+		<script src=" js/script.js " type="module"></script>
+		<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	</body>
 </html>
