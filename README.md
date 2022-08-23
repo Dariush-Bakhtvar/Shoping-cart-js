@@ -20,6 +20,7 @@
   
  ## Project facilities
  <ul>
+  <li>Responsive Template</li>
   <li>Search Products</li>
   <li>Search in FiltrProuct</li>
   <li>Fiter Product</li>
